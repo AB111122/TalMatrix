@@ -3,6 +3,10 @@
  * Vanilla JS - Injects shared components, renders data cards, handles animations & form logic.
  */
 
+// Formspree endpoint for inquiries delivered to info@talmatrix.com.
+// Replace YOUR_FORM_ID with your Formspree form ID (e.g. https://formspree.io/f/xyz...).
+const FORM_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
 document.addEventListener("DOMContentLoaded", () => {
   initSharedComponents();
   renderDynamicData();
@@ -16,6 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
  */
 function getIconSvg(name, extraClass = "") {
   switch (name) {
+    case "globe":
+      return `<svg class="${extraClass}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" stroke="#F26B1D" stroke-width="1.5"/>
+        <line x1="2" y1="12" x2="22" y2="12" stroke="#F26B1D" stroke-width="1.5" stroke-linecap="square"/>
+        <path d="M12 2C14.5 5 16 8.5 16 12C16 15.5 14.5 19 12 22C9.5 19 8 15.5 8 12C8 8.5 9.5 5 12 2Z" stroke="#F26B1D" stroke-width="1.5" stroke-linejoin="miter"/>
+      </svg>`;
+
     case "arrow-up-right":
       return `<svg class="btn-arrow ${extraClass}" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
@@ -161,7 +172,7 @@ function initSharedComponents() {
         </nav>
         <div class="header-actions">
           <a href="contact.html" class="btn btn-primary">
-            Talk to our experts
+            Get in Touch
             ${getIconSvg("arrow-up-right")}
           </a>
           <button class="mobile-toggle" aria-expanded="false" aria-label="Toggle navigation menu" id="mobile-toggle-btn">
@@ -180,7 +191,7 @@ function initSharedComponents() {
           <a href="contact.html" class="nav-link ${isActiveLink("contact.html")}">Contact</a>
         </nav>
         <a href="contact.html" class="btn btn-primary" style="width: 100%;">
-          Talk to our experts
+          Get in Touch
           ${getIconSvg("arrow-up-right")}
         </a>
       </div>
@@ -201,12 +212,18 @@ function initSharedComponents() {
             <div class="site-cta-band__content">
               <span class="eyebrow">START A CONVERSATION</span>
               <h2 class="site-cta-band__h2">
-                <span class="title-navy">Ready to build what's</span>
-                <span class="title-orange">next?</span>
+                <span class="title-navy">Ready to Transform</span>
+                <span class="title-orange">Your Talent?</span>
               </h2>
+              <p style="margin-top: 14px; max-width: 54ch; font-size: 0.95rem; color: var(--navy); line-height: 1.6;">
+                Whether you are looking for talent, HR support, payroll solutions, or meaningful learning and development opportunities, Talmatrix is here to help.
+              </p>
+              <p style="margin-top: 8px; font-weight: 700; color: var(--navy); font-size: 0.95rem;">
+                Let's start a conversation.
+              </p>
             </div>
             <a href="contact.html" class="btn btn-primary">
-              Talk to our experts
+              Contact Us
               ${getIconSvg("arrow-up-right")}
             </a>
           </div>
@@ -233,6 +250,9 @@ function initSharedComponents() {
             <p class="footer-desc">
               A people-focused HR and talent solutions partner for organizations ready to grow.
             </p>
+            <div style="margin-top: 10px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--orange); letter-spacing: 0.04em;">
+              Talent & HR Solutions | Learning & Development
+            </div>
           </div>
 
           <!-- Col 2: Navigation -->
@@ -258,6 +278,10 @@ function initSharedComponents() {
               <li class="footer-contact-row">
                 ${getIconSvg("envelope")}
                 <a href="mailto:info@talmatrix.com">info@talmatrix.com</a>
+              </li>
+              <li class="footer-contact-row">
+                ${getIconSvg("globe")}
+                <a href="https://talmatrix.com" target="_blank" rel="noopener noreferrer">talmatrix.com</a>
               </li>
             </ul>
           </div>
@@ -528,6 +552,9 @@ function initContactForm() {
   const phoneInput = document.getElementById("form-phone");
   const submitBtn = document.getElementById("form-submit-btn");
 
+  const gotchaInput = document.getElementById("form-gotcha");
+  const submissionErrorEl = document.getElementById("form-submission-error");
+
   // Populate Service Select
   if (serviceSelect && typeof TALMATRIX_DATA !== "undefined") {
     serviceSelect.innerHTML = `<option value="" disabled selected>Select a service</option>` +
@@ -552,10 +579,14 @@ function initContactForm() {
   }
 
   // Real-time error removal on input
-  [nameInput, emailInput, messageInput].forEach((input) => {
+  [nameInput, emailInput, messageInput, orgInput, phoneInput, serviceSelect].forEach((input) => {
     if (!input) return;
     input.addEventListener("input", () => {
       input.closest(".form-group")?.classList.remove("has-error");
+      if (submissionErrorEl) {
+        submissionErrorEl.style.display = "none";
+        submissionErrorEl.innerHTML = "";
+      }
     });
   });
 
@@ -592,6 +623,12 @@ function initContactForm() {
 
     if (!isValid) return;
 
+    // Honeypot spam check
+    if (gotchaInput && gotchaInput.value.trim() !== "") {
+      showFormSuccess(form);
+      return;
+    }
+
     // Build Payload
     const payload = {
       name: nameInput.value.trim(),
@@ -600,7 +637,7 @@ function initContactForm() {
       phone: phoneInput ? phoneInput.value.trim() : "",
       service: serviceSelect ? serviceSelect.value : "",
       message: messageInput.value.trim(),
-      submittedAt: new Date().toISOString()
+      _gotcha: gotchaInput ? gotchaInput.value : ""
     };
 
     // Disable button during submission
@@ -608,43 +645,46 @@ function initContactForm() {
       submitBtn.disabled = true;
       submitBtn.innerHTML = `Sending inquiry...`;
     }
+    if (submissionErrorEl) {
+      submissionErrorEl.style.display = "none";
+      submissionErrorEl.innerHTML = "";
+    }
 
     try {
-      await submitForm(payload);
-      showFormSuccess(form);
+      const response = await submitForm(payload);
+      if (response && response.ok) {
+        showFormSuccess(form);
+      } else {
+        throw new Error("Form submission response not ok");
+      }
     } catch (err) {
       console.error("Submission failed:", err);
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = `Submit inquiry ↗`;
+        submitBtn.innerHTML = `Submit inquiry <svg class="btn-arrow" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>`;
       }
-      alert("An error occurred while submitting your message. Please try again or email us directly at info@talmatrix.com.");
+      if (submissionErrorEl) {
+        submissionErrorEl.style.display = "block";
+        submissionErrorEl.innerHTML = `Unable to submit inquiry at this moment. Please try again or email us directly at <a href="mailto:info@talmatrix.com" style="color:var(--navy);font-weight:700;text-decoration:underline;">info@talmatrix.com</a>.`;
+      }
     }
   });
 }
 
 /**
- * Form submission stub (fetch POST placeholder for future backend)
+ * Real delivery to info@talmatrix.com using Formspree
+ * (fetch POST to FORM_ENDPOINT with Accept: application/json)
  */
 async function submitForm(payload) {
-  /*
-  // Future backend endpoint integration:
-  const response = await fetch("https://api.talmatrix.com/v1/inquiries", {
+  const response = await fetch(FORM_ENDPOINT, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
     body: JSON.stringify(payload)
   });
-  if (!response.ok) throw new Error("Submission network response was not ok");
-  return await response.json();
-  */
-
-  // Simulated async network delay
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log("[TALMATRIX Inquiry Submitted]:", payload);
-      resolve({ status: "success", receivedAt: new Date().toISOString() });
-    }, 600);
-  });
+  return response;
 }
 
 /**

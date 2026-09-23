@@ -85,6 +85,20 @@
                   <a href="tel:+923003032268" class="contact-info-val">+92-300-3032268</a>
                 </div>
               </div>
+
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" stroke="#F26B1D" stroke-width="1.5"/>
+                    <line x1="2" y1="12" x2="22" y2="12" stroke="#F26B1D" stroke-width="1.5" stroke-linecap="square"/>
+                    <path d="M12 2C14.5 5 16 8.5 16 12C16 15.5 14.5 19 12 22C9.5 19 8 15.5 8 12C8 8.5 9.5 5 12 2Z" stroke="#F26B1D" stroke-width="1.5" stroke-linejoin="miter"/>
+                  </svg>
+                </div>
+                <div class="contact-info-details">
+                  <span class="contact-info-label">Website</span>
+                  <a href="https://talmatrix.com" target="_blank" rel="noopener noreferrer" class="contact-info-val">talmatrix.com</a>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -92,6 +106,8 @@
           <div class="reveal">
             <div class="form-panel">
               <form id="contact-form" novalidate>
+                <!-- Honeypot field to block spam -->
+                <input type="text" name="_gotcha" id="form-gotcha" style="display:none !important;" tabindex="-1" autocomplete="off" aria-hidden="true">
                 <div class="form-grid">
                   <!-- Name -->
                   <div class="form-group">
@@ -142,6 +158,8 @@
                         <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
                       </svg>
                     </button>
+                    <!-- Form-level submission error message container -->
+                    <div id="form-submission-error" class="form-error" style="margin-top: 10px; font-size: 0.72rem; line-height: 1.4;"></div>
                   </div>
                 </div>
               </form>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | TALMATRIX - Let's Start a Conversation</title>
+  <meta name="description" content="Reach out to Talmatrix for recruitment, HR consulting, payroll outsourcing, or specialized training solutions.">
+  <meta name="theme-color" content="#1B2733">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact TALMATRIX | Let's Start a Conversation">
+  <meta property="og:description" content="Have an HR, recruitment, training or professional development requirement? We'd be happy to understand your needs.">
+  <meta property="og:image" content="assets/hero-team.jpg">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='1,5 25,2 25,9 1,12' fill='%231B2733'/%3E%3Crect x='9' y='8' width='9' height='21' fill='%231B2733'/%3E%3Crect x='25' y='2' width='6' height='6' fill='%23F26B1D'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Shared Top Bar Placeholder -->
+  <div id="site-top"></div>
+
+  <!-- Shared Header Placeholder -->
+  <header id="site-header"></header>
+
+  <main id="main-content">
+    <!-- INNER-PAGE HERO -->
+    <section class="inner-hero">
+      <div class="container inner-hero__inner">
+        <div class="inner-hero__content reveal">
+          <span class="eyebrow">CONTACT US</span>
+          <h1 class="inner-hero__title">
+            <span class="title-navy">Let's start a</span>
+            <span class="title-orange">conversation.</span>
+          </h1>
+          <p class="inner-hero__desc">
+            Have an HR, recruitment, training or professional development requirement? We'd be happy to understand your needs.
+          </p>
+        </div>
+        <div class="inner-hero__watermark" aria-hidden="true">
+          <span>TM</span><span class="inner-hero__bar"></span><span>26</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION (Cream band with 2-column layout) -->
+    <section class="section band-cream">
+      <div class="container">
+        <div class="contact-grid">
+          <!-- Left Column: Information -->
+          <div class="reveal">
+            <span class="eyebrow">REACH OUT</span>
+            <h2>
+              <span class="title-navy">Make your next</span>
+              <span class="title-orange">move count.</span>
+            </h2>
+            <p style="margin-top: 18px; max-width: 48ch;">
+              Tell us a little about what you're building. We'll be in touch to explore how Talmatrix can support you.
+            </p>
+
+            <div class="contact-info-list">
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="14" stroke="#F26B1D" stroke-width="1.5"/>
+                    <polyline points="3,6 12,13 21,6" stroke="#F26B1D" stroke-width="1.5" stroke-linecap="square"/>
+                  </svg>
+                </div>
+                <div class="contact-info-details">
+                  <span class="contact-info-label">Email us</span>
+                  <a href="mailto:info@talmatrix.com" class="contact-info-val">info@talmatrix.com</a>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="5" y="2" width="14" height="20" stroke="#F26B1D" stroke-width="1.5"/>
+                    <line x1="10" y1="18" x2="14" y2="18" stroke="#F26B1D" stroke-width="1.5" stroke-linecap="square"/>
+                    <line x1="10" y1="5" x2="14" y2="5" stroke="#F26B1D" stroke-width="1.5" stroke-linecap="square"/>
+                  </svg>
+                </div>
+                <div class="contact-info-details">
+                  <span class="contact-info-label">Call us</span>
+                  <a href="tel:+923003032268" class="contact-info-val">+92-300-3032268</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Form Panel -->
+          <div class="reveal">
+            <div class="form-panel">
+              <form id="contact-form" novalidate>
+                <div class="form-grid">
+                  <!-- Name -->
+                  <div class="form-group">
+                    <label for="form-name" class="form-label">Name *</label>
+                    <input type="text" id="form-name" name="name" class="form-input" placeholder="Your full name" required>
+                    <span class="form-error">Please enter your name</span>
+                  </div>
+
+                  <!-- Organization -->
+                  <div class="form-group">
+                    <label for="form-organization" class="form-label">Organization</label>
+                    <input type="text" id="form-organization" name="organization" class="form-input" placeholder="Company name">
+                  </div>
+
+                  <!-- Email -->
+                  <div class="form-group">
+                    <label for="form-email" class="form-label">Email address *</label>
+                    <input type="email" id="form-email" name="email" class="form-input" placeholder="you@company.com" required>
+                    <span class="form-error">Please provide a valid email address</span>
+                  </div>
+
+                  <!-- Phone -->
+                  <div class="form-group">
+                    <label for="form-phone" class="form-label">Phone number</label>
+                    <input type="tel" id="form-phone" name="phone" class="form-input" placeholder="0300...">
+                  </div>
+
+                  <!-- Service Select (Full width) -->
+                  <div class="form-group form-group--full">
+                    <label for="form-service" class="form-label">What can we help with?</label>
+                    <select id="form-service" name="service" class="form-select">
+                      <!-- Populated dynamically from data.js -->
+                    </select>
+                  </div>
+
+                  <!-- Message (Full width) -->
+                  <div class="form-group form-group--full">
+                    <label for="form-message" class="form-label">Message *</label>
+                    <textarea id="form-message" name="message" class="form-textarea" rows="4" placeholder="Tell us about your requirement..." required></textarea>
+                    <span class="form-error">Please enter a message (min. 10 characters)</span>
+                  </div>
+
+                  <!-- Submit Button -->
+                  <div class="form-group form-group--full" style="margin-top: 8px;">
+                    <button type="submit" id="form-submit-btn" class="btn btn-primary" style="width: auto; align-self: flex-start;">
+                      Submit inquiry
+                      <svg class="btn-arrow" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared CTA Band Placeholder (Hidden on contact.html by main.js) -->
+  <div id="site-cta"></div>
+
+  <!-- Shared Footer Placeholder -->
+  <footer id="site-footer"></footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
